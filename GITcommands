@@ -1,0 +1,22 @@
+…or create a new repository on the command line
+echo "# FoodApp" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/AnkishSharma24/FoodApp.git
+git push -u origin main
+
+
+
+…or push an existing repository from the command line
+git remote add origin https://github.com/AnkishSharma24/FoodApp.git
+git branch -M main
+git push -u origin main
+
+
+Manu
+
+git remote
+git remote --help  ----> q to get out of terminal
+git remote remove origin (remote is duplicate copy in our system whereas main is on the web)
