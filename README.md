@@ -1,4 +1,4 @@
-# Step 1 ---------------------------------------------------------------------------------------------------------------------->
+# Step 1 
 
 -Create a boiler plate in index.html
 -<body>
@@ -17,7 +17,7 @@
 </script>
 
 
-# Step 2 ---------------------------------------------------------------------------------------------------------------------->
+# Step 2 
 
 -Adding react cia CDN links
 
@@ -32,7 +32,7 @@ const heading = React.createElement("h1",{class:"heading"},"Hi All!")
         root.render(heading)
 
 
-# Step 3 ---------------------------------------------------------------------------------------------------------------------->
+# Step 3 
 -Creating index.css and linking it thorugh index.html -> right below title <link rel="stylesheet" href="./index.css">
 
 check for functionality
@@ -42,7 +42,7 @@ check for functionality
 }
 
     
-# Step 4 ---------------------------------------------------------------------------------------------------------------------->
+# Step 4 
 
 - npm init
 - npm i -D parcel (node_modules are created & package-lock.json is created)
@@ -52,13 +52,13 @@ check for functionality
 package.json -> approx version i.e. it has caret or tilde in it, whereas
 package-lock.json has exact version of parcel
 
-# Step 5 ---------------------------------------------------------------------------------------------------------------------->
+# Step 5 
 
 - Use .gitignore to not upload the files on out git account (unnecessary files like node_modules, parcel-cache, dist)
 - Add file i .gitignore like /node_modules, /parcel-cacke.
 - NOTE: if we have package.json and package-lock.json we can recreate node-modules using npm i.
 
-# Step 6 ---------------------------------------------------------------------------------------------------------------------->
+# Step 6 
 
 - npx parcel index.html --> parcel created a server to run our app. --> Server running at http://localhost:1234
 - npx means execute and mpm means to install
@@ -82,13 +82,13 @@ Differential Bundling -> to support older browsers
 Diagnostics
 Error Handling
 
-# Step 7 ---------------------------------------------------------------------------------------------------------------------->
+# Step 7 
 
 PRODUCTION READY
 
 - npx parcel build index.html (this will gives three files html,css and javascript files in the most optimized way)
 
-# Step 8 ---------------------------------------------------------------------------------------------------------------------->
+# Step 8 
 
 JSX (This is not HTML, its syntax is HTML like but it is different)
 
@@ -105,7 +105,7 @@ EXAMPLE --> const heading = (<h1 className="Heading">
 I am JSX</h1>) <-- here we can see it is wrapped in () as to make sure babel understands it.
 
 
-# Step 9 ---------------------------------------------------------------------------------------------------------------------->
+# Step 9 
 
 Two types of components in React
 1) Class Based componenet (used earlier)
@@ -169,7 +169,7 @@ Three types on how to insert
 3) <Title></Title>
 
 
-# Step 10 --------------------------------------------------------------------------------------------------------------------->
+# Step 10 
 A component is a normal javascript fucnction that returns a js element
 Creating header component
 
@@ -281,109 +281,12 @@ const Body = ()=> {
     )
 }
 
-# Step 11 --------------------------------------------------------------------------------------------------------------------->
+# Step 11 
 
 Passing data using API object locally
 
 
-const resObj = {
-    "info": {
-      "id": "686198",
-      "name": "Chinese Wok",
-      "cloudinaryImageId": "e0839ff574213e6f35b3899ebf1fc597",
-      "locality": "Metro Station",
-      "areaName": "Moti Jheel",
-      "costForTwo": "₹250 for two",
-      "cuisines": [
-        "Chinese",
-        "Asian",
-        "Tibetan",
-        "Desserts"
-      ],
-      "avgRating": 4.3,
-      "parentId": "61955",
-      "avgRatingString": "4.3",
-      "totalRatingsString": "500+",
-      "sla": {
-        "deliveryTime": 26,
-        "lastMileTravel": 2.3,
-        "serviceability": "SERVICEABLE",
-        "slaString": "25-30 mins",
-        "lastMileTravelString": "2.3 km",
-        "iconType": "ICON_TYPE_EMPTY"
-      },
-      "availability": {
-        "nextCloseTime": "2024-07-21 01:00:00",
-        "opened": true
-      },
-      "badges": {
-        "imageBadges": [
-          {
-            "imageId": "Rxawards/_CATEGORY-Chinese.png",
-            "description": "Delivery!"
-          }
-        ]
-      },
-      "isOpen": true,
-      "type": "F",
-      "badgesV2": {
-        "entityBadges": {
-          "imageBased": {
-            "badgeObject": [
-              {
-                "attributes": {
-                  "description": "Delivery!",
-                  "imageId": "Rxawards/_CATEGORY-Chinese.png"
-                }
-              }
-            ]
-          },
-          "textBased": {
-            
-          },
-          "textExtendedBadges": {
-            
-          }
-        }
-      },
-      "aggregatedDiscountInfoV3": {
-        "header": "ITEMS",
-        "subHeader": "AT ₹199"
-      },
-      "differentiatedUi": {
-        "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
-        "differentiatedUiMediaDetails": {
-          "mediaType": "ADS_MEDIA_ENUM_IMAGE",
-          "lottie": {
-            
-          },
-          "video": {
-            
-          }
-        }
-      },
-      "reviewsSummary": {
-        
-      },
-      "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
-      "restaurantOfferPresentationInfo": {
-        
-      },
-      "externalRatings": {
-        "aggregatedRating": {
-          "rating": "--"
-        }
-      },
-      "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
-    },
-    "analytics": {
-      
-    },
-    "cta": {
-      "link": "https://www.swiggy.com/restaurants/chinese-wok-metro-station-moti-jheel-kanpur-686198",
-      "type": "WEBLINK"
-    }
-  }
+const resObj = {}
 
 const RestaurantCard = (props)=> {
 
@@ -492,3 +395,178 @@ TO OPTIMIZE AND MAKE CODE MORE READABLE WE CAN DO THE FOLLOWING
 - Remove constants from code and create a seperate file for components.
 - Two types of import and export -> default(only used when there is single thing) and named{}(usually used when multiple things are to be imported).
 
+# Step 12 
+
+REACT HOOKS - normal javascript functions that are pre-built in react
+
+React uses reconciliation algorithm
+- react creates a virtual dom (actual dom are the tags lets say div inside a div with img and h1)
+In our case a better eg is if we console.log(<Body />) in Applayout we get a object that is virtual DOM
+
+Diff Algorithm --> basically finds out the difference between two virtual DOMs (updated version and previous version)
+
+React Fiber --> read about it (https://github.com/acdlite/react-fiber-architecture)
+
+1) useState()    -->  const [listOfRestaurant, setlistOfRestaurant]= useState([]) --> inside is default array null which is default value of listofRestaurant
+
+NOTE: whenever a state variable updates react re-renders its component
+
+EXAMPLE of useState()
+
+ <button className="filter-btn" onClick={()=>
+                {const filteredList = listOfRestaurant.filter(
+                    (res)=> res.info.avgRating >4.3)
+
+                    setlistOfRestaurant(filteredList);
+                 }
+      }>Top Rated Restaurant</button>
+
+2) useEffect(()=>{}, [])  --> takes two arguments first is call back function second is dependancy array
+
+The callback function in useEffect() will be called after the components renders.
+
+
+--> our purpose is to when we click on filter button we should get only top rated restaurant, that means
+we have to provide map function a filtered list of top rated restaurants.
+
+There are two approaches than can be followed using the API data
+
+1) Loads -> API call -> render on UI
+2) Loads -> render UI -> API call -> re-render wit API data  (better user experience)
+
+
+# Step 13 
+
+FETCHING DATA
+
+ 
+      useEffect(()=>{
+       fetchData();
+      },[])
+
+      const fetchData = async ()=>{
+        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.49690&lng=80.32460&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+    
+        const json = await data.json();
+
+        console.log(json);
+    
+        setlistOfRestaurant(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants)
+
+    }
+
+# Step 14 
+
+Using Shimmer for better user experience
+
+just below useEffect()
+
+ if(listOfRestaurant.length === 0){
+      return  <h1>Loading...</h1>
+    }
+
+---> Now we try to skeleton using a fake page
+
+// Below concept is also known as conditional rendering
+if(listOfRestaurant.length === 0){
+      return  <Shimmer/>
+    }
+
+Another way of writing using ternary operator is
+
+ return listOfRestaurant.length === 0 ?(<-- IF) <Shimmer/>
+     (ELSE -->)  :  (
+        <div className="body">
+            <button className="filter-btn" onClick={()=>
+                {const filteredList = listOfRestaurant.filter(
+                    (res)=> res.info.avgRating >4.3)
+
+                    setlistOfRestaurant(filteredList);
+                 })
+
+# Step 15 
+
+Login button functionality 
+
+ const [login, setLogin] = useState("Login");
+
+ <button className="login-button" onClick={()=>{
+                    if(login==="Login") setLogin("Logout") 
+                        else{setLogin("Login")}
+                }}>{login}</button>
+
+NOTE---> On click of the button React will re-render the header component again i.e. every time we click on 
+button it re-renders Header  ******** VERY  IMPORTANT
+
+diff algorithm here plays a major role in the above process and only the button gets updated
+
+# Step 16
+
+SEARCH functionality
+
+
+CHATGPT
+import React, { useState, useEffect } from "react";
+import RestaurantCard from "./RestaurantCard";
+import resList from "../../utils/constants/mockData";
+import Shimmer from "./Shimmer";
+
+const Body = () => {
+  const [listOfRestaurant, setListOfRestaurant] = useState([]);
+  const [allRestaurants, setAllRestaurants] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.49690&lng=80.32460&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+      const json = await response.json();
+      const restaurants = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
+      setListOfRestaurant(restaurants);
+      setAllRestaurants(restaurants);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
+  const handleSearch = () => {
+    const filteredRestaurant = allRestaurants.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setListOfRestaurant(filteredRestaurant);
+  };
+
+  return listOfRestaurant.length === 0 ? (
+    <Shimmer />
+  ) : (
+    <div className="body">
+      <button className="filter-btn" onClick={() => {
+        const filteredList = listOfRestaurant.filter(
+          (res) => res.info.avgRating > 4.3
+        );
+        setListOfRestaurant(filteredList);
+      }}>
+        Top Rated Restaurant
+      </button>
+      <div className="search">
+        <input
+          type="text"
+          className="search-box"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <div className="res-container">
+        {listOfRestaurant.map((res) => (
+          <RestaurantCard key={res.info.id} resData={res} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Body;

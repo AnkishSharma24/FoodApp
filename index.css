@@ -39,7 +39,8 @@
 
 .res-card:hover {
     border: 2.5px solid black;
-    background-color: rgb(159, 42, 165);
+    background-color: coral;
+    cursor: pointer;
 }
 
 .res-card{
@@ -56,4 +57,40 @@
     border-radius: 5%;
     width: 200px;
     height: 100px;
+}
+
+.filter-btn{
+    margin-top: 7px;
+    padding: 2px;
+    background-color: chocolate;
+}
+.filter-btn:hover{
+    cursor: pointer;
+}
+
+.shimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shimmer-cards{
+    height: 350px;
+    width: 220px;
+    background-color: #f0f0f0;
+    margin-top: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 10%;
+}
+
+.login-button{
+    margin-right: 5px;
+    cursor: pointer;
+    width: 60px;
+    border-radius: 10%;
+    height: 30px;
+    margin-top: 18px;
+    background-color: lightcoral;
+
 }

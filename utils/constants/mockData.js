@@ -1,3 +1,5 @@
+// Not required anymore since we are now using live API so i am putting this in git ignore
+
 const resList = [
     {
       "info": {
