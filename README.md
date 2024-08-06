@@ -251,7 +251,7 @@ const RestaurantCard = (props)=> {
     return(
         <div className="res-card">
             <h3>{props.name}</h3> 
-            <img className="res-image" alt="res-logo" src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/e0839ff574213e6f35b3899ebf1fc597"></img>
+            <img className="res-image" alt="res-logo" src=""></img>
         
         <h5>{props.menu}</h5>
         <h5>{props.stars}</h5>
@@ -295,7 +295,7 @@ const RestaurantCard = (props)=> {
     return(
         <div className="res-card">
             <h3>{resData.info.name}</h3> 
-            <img className="res-image" alt="res-logo" src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/e0839ff574213e6f35b3899ebf1fc597"></img>
+            <img className="res-image" alt="res-logo" src=""></img>
         
         <h5>{resData.info.cuisines.join(", ")}</h5>
         <h5>{resData.info.avgRating}</h5>
@@ -505,68 +505,139 @@ diff algorithm here plays a major role in the above process and only the button 
 SEARCH functionality
 
 
-CHATGPT
-import React, { useState, useEffect } from "react";
-import RestaurantCard from "./RestaurantCard";
-import resList from "../../utils/constants/mockData";
-import Shimmer from "./Shimmer";
+NOTE: We can simply create search functionality using the below code but one thing to make sure is that 
+we have created another state variable, so that while filtering we have to filter among n number of restaurants and
+not the restaurants thats already been filtered.
 
-const Body = () => {
-  const [listOfRestaurant, setListOfRestaurant] = useState([]);
-  const [allRestaurants, setAllRestaurants] = useState([]);
-  const [searchText, setSearchText] = useState("");
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.49690&lng=80.32460&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
-      const json = await response.json();
-      const restaurants = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
-      setListOfRestaurant(restaurants);
-      setAllRestaurants(restaurants);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  };
-
-  const handleSearch = () => {
-    const filteredRestaurant = allRestaurants.filter((res) =>
+const handleSearch = () => {
+    const filteredRestaurant = listOfRestaurant.filter((res) =>
       res.info.name.toLowerCase().includes(searchText.toLowerCase())
     );
-    setListOfRestaurant(filteredRestaurant);
+    setFilterRestaurant(filteredRestaurant);
   };
 
-  return listOfRestaurant.length === 0 ? (
-    <Shimmer />
-  ) : (
-    <div className="body">
-      <button className="filter-btn" onClick={() => {
-        const filteredList = listOfRestaurant.filter(
-          (res) => res.info.avgRating > 4.3
-        );
-        setListOfRestaurant(filteredList);
-      }}>
-        Top Rated Restaurant
-      </button>
-      <div className="search">
-        <input
-          type="text"
-          className="search-box"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <div className="res-container">
-        {listOfRestaurant.map((res) => (
+NOTE: We now also have to update our UI with filterRestaurant
+
+ <div className="res-container">
+        {filterRestaurant.map((res) => (
           <RestaurantCard key={res.info.id} resData={res} />
         ))}
       </div>
-    </div>
-  );
-};
 
-export default Body;
+# Step 17
+
+CREATING PATH
+
+Points to remember
+> If there is no dependency array useEffect will be called after every render of component.
+> If there is dependency array then useEffect is called only on initial render.
+> Lets say if we use some button as a dependency then useEffect will be called every time the button is updated.
+> Never use Hooks outside components & try to call the at top.
+> Never use useState inside if else or for loop NEVER.
+
+
+using new library for routing --> npm i react-router-dom
+
+// App.js
+import { createBrowserRouter, routerProvider } from "react-router-dom";
+const appRouter = createBrowserRouter([
+    {
+        path: "/",
+        element: <AppLayout/>
+        
+    },
+    {
+        path: "/about",
+        element: <About/>
+    },
+
+    {
+        path: "/contact",
+        element: <Contact/>
+    }
+
+
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<RouterProvider router={appRouter} />);
+
+NOTE: react-router-dom gives us an important Hook --> useRouterError
+
+import { useRouteError } from "react-router-dom";
+
+const Error = ()=>{
+    const err = useRouteError();
+    console.log(err);
+    return(
+        <div>
+            <h1>Opps looks like something went wrong...</h1>
+            <h3>{err.status}:{err.statusText}</h3>
+            <img src="https://media1.tenor.com/m/i9UkjLlNlt4AAAAC/anime-sorry.gif"></img>
+        </div>
+    )
+}
+
+# Step 18
+
+CHILDREN ROUTE
+
+Children is a list of paths
+
+Note: this outlet will be filled according to the childred with the path on what page we are:
+
+const AppLayout = () => {
+    return(
+        <div>
+            <Header/>
+            <Outlet />
+        </div>
+    )
+}
+const appRouter = createBrowserRouter([
+    {
+        path: "/",
+        element: <AppLayout/>,
+        children:[
+            {
+                path: "/",
+                element: <Body/>
+            },
+            {
+            path: "/about",
+            element: <About/>
+        },
+        {
+            path: "/contact",
+            element: <Contact/>
+        }
+    ],
+        errorElement:<Error/>        
+    },
+]);
+
+NOTE: We do not use achor tag because it refreshes the whole page.
+NOTE: We use <Link> to shuffel on different page because it does not reload page.
+
+
+  <Link to="/"> <li className="nav-item">Home</li></Link> 
+  <Link to="/about"> <li className="nav-item">About Us</li> </Link> 
+   <Link to="/contact"> <li className="nav-item">Contact Us</li> </Link>
+
+   --> 2 types of routing
+   -client side rounting (components are already loaded )
+   -server side routing
+
+   # Step 19
+
+   CREATING DYNAMIC ROUTING
+
+    {  path: "/restaurants/:resId",    <------- dynamic ID
+       element: <MenuOfRestaurants/>
+    },
+
+    NOTE: we use react-router-dom hook useParams in the above case
+
+
+
+

@@ -24,6 +24,7 @@
     margin-right: 8px;
     margin-left: 8px;
     font-size: 20px;
+    
 }
 
 .search{
@@ -93,4 +94,19 @@
     margin-top: 18px;
     background-color: lightcoral;
 
+}
+
+.nav-item{
+
+    font-size: 20px;
+   text-decoration: none;
+    margin-top: 20px;
+    margin-left: 8px;
+    margin-right: 8px;
+    
+}
+
+.menu > ul > li{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
