@@ -110,3 +110,16 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.user-card{
+    border: 2px solid black;
+}
+
+.about-image{
+    width: 100%;
+}
+
+.avatar-image{
+    width: 80px;
+    height: 80px;
+}

@@ -628,7 +628,7 @@ NOTE: We use <Link> to shuffel on different page because it does not reload page
    -client side rounting (components are already loaded )
    -server side routing
 
-   # Step 19
+# Step 19
 
    CREATING DYNAMIC ROUTING
 
@@ -637,7 +637,171 @@ NOTE: We use <Link> to shuffel on different page because it does not reload page
     },
 
     NOTE: we use react-router-dom hook useParams in the above case
+   Inside component ---> const {resId}= useParams();
+
+# Step 20
+
+CREATING CLASS COMPONENT
 
 
+import React from "react";
+
+class UserClass extends React.Component {
+    constructor(props){
+        super(props);
+        console.log(props)
+    }
+    render(){
+            // const {name, location} = this.props;
+        return(
+            <div className="user-card">
+            <h2>Name: {this.props.name}</h2>
+            <h3>Location: KanpurClass</h3>
+            <h3>Contact: 123321123Class</h3>
+        </div>
+        )}}
+export default UserClass;
+
+Points to remember
+- We can see above that the syntax is different as compared to functional component.
+- Major difference is also in using props, here we create constructor and super(props).
+- Here we have to use this. for props. Note if this looks ugly we can de structure it //const {name, location} = this.props;
+- NOTE: whenever we create an instance of a class this constructor is called so, this is the best place for STATE VARIABLES.
+- We can simply destructure the stat variables like above example inside render(){// const {count, count1} =this.state; }
+ 
+ EXAMPLE-->    constructor{  
+                 this.state={
+                   count:0,
+                    }}
+
+- Now how can we update these state variablses in class components [NOTE: never update state variables directly like this.state.count = X wrong]
+
+- We use this.setState({}) and inside this we pass an object which contains updated value, see below example
+
+<button onClick={()=>{  
+                    this.setState({
+                        count: this.state.count +1
+                    })
+                }}></button>
+
+- First thing that happens when a class loads(creating new instance of a class) is, a constructor is called.
+
+---> Life cycle of a class based Component -> constructor -> render -> componentDidMount
+
+import User from "./User";
+import UserClass from "./UserClass";
+import React from "react";
+
+class About extends React.Component{
+    constructor(props){
+        super(props);
+        console.log("Parent constructor")
+    }
+    componentDidMount(){
+        console.log("Parent DidMount")
+    }
+    render(){
+        console.log("Parent Render")
+        return(
+            <div>
+            <h1 className="statement">We are the best food app here! About class component</h1>
+           
+           <UserClass name={"Ankish (class)"} location={"Kanpur using props"}/>
+            <img className="about-image"  src=""></img>
+        </div>
+
+        )
+    }
+}
+export default About;
+
+OUTPUT
+Parent constructor
+Parent render
+Child  constructor
+Child  render
+Child  DidMount
+Parent DidMount
+
+NOTE: componentDidMount(){} is used to make API calls
+
+CASE --> when there are multiple children
+
+Example -> lets say there are two chldren firstChild, secondChild then taking above code the output will be
+
+OUTPUT
+Parent constructor
+Parent render
+firstChild constructor
+firstChild render
+secondChild constructor
+secondChild render
+firstChild componentDidMount       <---- code is optimized and is printed at the end of first and second child
+secondChild componentDidMount      <---- code is optimized and is printed at the end of first and second child
+Parent componentDidMount
 
 
+# IMPORTANT LINK --> https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
+
+Q) How to make API calls in class based component?
+
+import React from "react";
+
+class UserClass extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state={   
+            userInfo: {
+                name: "Dummy",
+                location: "Default",
+                avatar_url: "http://knsfdfnsd",
+            }       ,
+        }         
+    }
+
+    async componentDidMount(){
+        const data = await fetch("https://api.github.com/users/ankishsharma24")
+        const json = await data.json();
+        console.log(json)
+
+        this.setState({
+            userInfo: json
+        })
+    }
+
+      componentDidUpdate(){
+        console.log("Component did update")
+    }
+
+    componentWillUnmount(){}   <---------------------- This function is called just before unmounting or changing the component/page
+
+    render(){        
+        const {name, location} = this.props;
+        return(
+            <div className="user-card">
+              <img className="avatar-image" src={this.state.userInfo.avatar_url}></img>
+            <h2>Name: {this.state.userInfo.name}</h2>
+            <h3>Location: {this.state.userInfo.location}</h3>
+            <h3>Contact: 123321123Class</h3>
+        </div>
+        )
+    }
+
+}
+
+export default UserClass;
+
+-------LIFE CYCLE-------
+MOUNTING PHASE
+constructor(dummy)
+    render(dummy)
+    <HTML dummy>
+componentDidMount
+    <API call>   
+    <this.setState>  --> state variable is updated
+
+UPDATING PHASE    
+    render(API data)
+    <HTML new API data>
+    componentDidUpdate(){}
