@@ -805,3 +805,73 @@ UPDATING PHASE
     render(API data)
     <HTML new API data>
     componentDidUpdate(){}
+
+IMPORTANT NOTE: In case of functional component to unmount we use the below syntax
+
+ useEffect(()=>{
+        console.log("useEffect")
+    return()=>{
+        console.log("useEffect return")
+    }
+ },[])
+ console.log("render")
+
+ORDER OF OUTPUT:
+render
+useEffect
+useEffect return  <--- when the component is switched/page is changed
+
+# Step 21
+
+Optimizing our app
+
+- Single responsibility principle.
+- Modularity means you break your code into small small modules so that it becomes more maintainable.
+
+CREATING OUR OWN HOOKS
+- What we did in our code is that in MenuOfRestaurant we took out the fetching logic and created a separate hook for that 
+so that it could follow single responsibility principle and created our custom hook shown below 
+
+import {useState, useEffect} from "react";
+const useRestaurantMenu = (resId)=>{
+    const [resInfo, setResInfo]= useState(null);
+    useEffect(()=>{
+        fetchMenu();
+    },[])
+  const fetchMenu = async ()=>{
+        const data = await fetch("https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.49690&lng=80.32460&restaurantId=" + resId)
+        const json = await data.json();
+        setResInfo(json.data)
+        console.log(json)
+    }
+    return resInfo;
+}
+export default useRestaurantMenu;
+
+---> Another example of custom hook is to check our online status shown below:
+import { useState, useEffect } from "react"
+
+const useOnlineStatus = ()=>{
+    const [onlineStatus, setOnlineStatus] = useState(true)
+    useEffect(()=>{
+        window.addEventListener("offline", ()=>{
+            setOnlineStatus(false)
+        })        
+        window.addEventListener("online", ()=>{
+            setOnlineStatus(true)
+        })
+    },[])
+        return onlineStatus;
+    }
+    export default useOnlineStatus;
+
+
+NOTE: To even optimize our code further, PARCEL we know it is a bundler but it creates a single file for all our components
+      whose size become large which can cause issues(slows app), so we need o separate the files into small js files.
+
+Solution for above NOTE
+-Chunking
+-Code splitting
+-dynamic bundling
+-Lazy loading
+-On demand loading
