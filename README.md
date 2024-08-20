@@ -875,3 +875,202 @@ Solution for above NOTE
 -dynamic bundling
 -Lazy loading
 -On demand loading
+
+
+# Lazy Loading
+
+//import Grocery from "./components/Grocery";
+import { lazy, Suspense } from "react";
+const Grocery = lazy(()=> import("./components/Grocery"))
+{
+            path: "/grocery",
+            element: <Suspense fallback={<h1>Loading..</h1>}><Grocery/></Suspense>
+        },
+
+--> suspense is used to temprory provide data so that JS does not throw error while rendering.
+
+# Step 22
+
+Styling Tailwind
+
+Installing to our project from -> https://tailwindcss.com/
+-> procedure mentioned in the above link for installation (Parcel)
+
+Tailwind has class for every css
+
+# Step 23
+
+HIGHER ORDER COMPONENTS -> takes a component and returns a component. Basically it takes a component and modifies and returns new component.
+
+NOTE: In our project we will take restaurant card as an input and return enhanced card with isOpen tag on it using Higher order component.
+
+// Creating higher order function
+  export  const withPromotedLabel = (RestaurantCard) => {
+        return(props) =>{
+            return(
+                <div>
+                    <label>isOpen</label>
+                    <RestaurantCard {...props}/>   -------> passing all the props that are received
+                </div>
+            )
+        }
+    }
+
+--->    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard); 
+<Link to={"/restaurants/" + res.info.id} key={res.info.id}>
+          {/** If true then show promoted else show no promotion for isOpen   
+         IMPORTANT -->  As we can see below we had to pass resData={res} in both component and to receive the props in the return above.
+          */
+           res.info.isOpen ? (<RestaurantCardPromoted key={res.info.id} resData={res}></RestaurantCardPromoted>)  :( 
+            <RestaurantCard  resData={res} />)
+          }
+          
+          </Link> 
+
+# Step 24
+
+CONTROLLED & UNCONTROLLED COMPONENTS, LIFTING THE STATE UP
+
+Link ---> https://react.dev/learn/sharing-state-between-components#lifting-state-up-by-example
+
+-> If the parent component has no control over child component then the child is said to be uncontrolled component.
+Example in our case the RestaurantCategory has its own state variable and handles the accordian seperately i.e. MenuOfRestaurants
+has no control over RestaurantCategory making RestaurantCategory uncontrolled component.
+
+Definition ->It is common to call a component with some local state “uncontrolled”. For example, the original Panel component with an isActive state variable is uncontrolled because its parent cannot influence whether the panel is active or not.
+
+NOTE -> read more about lifting the state up in React on internet
+
+[RestaurantCategory --> uncontrolled coponent below]
+import { useState } from "react";
+import ItemList from "./ItemList";
+
+const RestaurantCategory = ({data})=>{
+    const [showItems, setShowItems]= useState(false)
+    const handleClick = ()=>{
+                        setShowItems(!showItems)
+    }
+    return(
+        <div>
+            {/* Header* */}
+           <div className=" w-6/12 h-15 mx-auto my-4 bg-gray-100 rounded-md shadow-lg  hover:bg-gray-200">
+                <div className="flex justify-between bg-gray-300 rounded-md h-10"
+                    onClick={handleClick}>
+                   <span className="mt-2 ml-2 font-bold cursor-pointer hover:bg-gray-300">{data.title} ({data.itemCards.length})</span>
+                   <span className="mt-2 mr-2">🔽</span>
+                   </div>
+                { showItems &&   <ItemList items ={data.itemCards}/>}
+            </div>
+            {/*Accordian Body * */}       
+        </div>
+    )}
+export default RestaurantCategory;
+
+
+EXAMPLE 
+
+PARENT(MenuOfRestaurants)
+
+ const [showIndex, setShowIndex]= useState(null)
+
+<div className="text-center" >
+        {categories.map((category, index)=> 
+        // controlled component
+        <RestaurantCategory  
+        data= {category?.card?.card} 
+        showItems ={index === showIndex ? true : false}
+        setShowIndex = {() => setShowIndex(index === showIndex ? null : index)}
+        />)}
+        </div>
+
+CHILD(RestaurantCategory)
+
+import { useState } from "react";
+import ItemList from "./ItemList";
+
+const RestaurantCategory = ({data, showItems, setShowIndex})=>{
+
+        const handleClick = ()=>{
+            setShowIndex();
+        }
+    return(
+        <div>
+           <div className=" w-6/12 h-15 mx-auto my-4 bg-gray-100 rounded-md shadow-lg  hover:bg-gray-200">
+
+                <div className="flex justify-between bg-gray-300 rounded-md h-10"
+                    onClick={handleClick}  >
+                   <span className="mt-2 ml-2 font-bold cursor-pointer hover:bg-gray-300">{data.title} ({data.itemCards.length})</span>
+                   <span className="mt-2 mr-2">🔽</span>
+                   </div>
+                { showItems &&   <ItemList items ={data.itemCards}/>}
+            </div>     
+        </div>
+    )}
+export default RestaurantCategory;
+
+# Setp 25
+
+PROPS DRILLING
+
+Link ---> https://react.dev/learn/passing-data-deeply-with-context#replace-prop-drilling-with-context
+
+(Component UserContext)---> we can access this anywhere
+
+import { createContext } from "react" ---> React Hooks
+
+const UserContext = createContext({
+    loggedInUser: "Defaullt Me",
+})
+export default UserContext;
+
+(In component Header.js)
+
+import {UserContext} from "../../utils/UserContext"; 
+
+ const {loggedInUser} = useContext(UserContext);
+     console.log(loggedInUser);
+
+
+---> How to useContext in class based component ?
+
+import { useContext } from "react";
+import {UserContext} from "../../utils/UserContext"; 
+
+<div>
+                Logged In User:
+                <UserContext.Consumer>                              ----> this is a component
+                    {({loggedInUser}) => <h3>{loggedInUser}</h3>}
+                </UserContext.Consumer>
+</div>
+
+
+--->How do we make changes(MODIFY) from root level component dynamic/static?
+const AppLayout = () => {
+    const [userName, setUserName] = useState();
+    // Authentication
+    useEffect(()=>{
+        // Make API call for username and passsword
+        const data ={
+            name: "Ankish",
+        }
+        setUserName(data.name)
+    },[])
+    return(
+        <UserContext.Provider value={{loggedInUser: userName}}>
+        <div>
+            <Header/>
+            <Outlet />
+        </div>
+        </UserContext.Provider>
+    )
+}
+
+# Step 26
+
+REDUX TOOL KIT (ZUSTAND is another library like Redux)
+
+NOTE: Redux and React are different libraries.
+
+
+ 
+
